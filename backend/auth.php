@@ -56,4 +56,42 @@ echo   "<pre style='font-family:inherit'>";
 $access_token = json_decode($response->getBody(),true)["access_token"];
 $instance_url = json_decode($response->getBody(),true)["instance_url"];
 
+// Now that we have authenticated, Reconfigure client to test apis
+$client = new GuzzleHttp\Client([
+    "base_uri" => $instance_url,
+    "timeout" => 5.0
+]);
+
+try {
+    // Define endpoint for querying
+    define("QUERY_URI", "/services/data/v20.0/query/");
+
+    // Prepare query
+    $query = "SELECT Name, Id FROM Contact";
+
+    // Test the API by getting a list of volunteers and their IDs
+    $response = $client->request("GET", QUERY_URI, [
+        "headers" => [
+            "Authorization" => "Bearer ".$access_token,
+            "Accept" => "application/json"
+        ],
+        "query" => [
+          "q" => $query
+        ]
+    ]);
+    // Display response if an exception in thrown
+} catch (RequestException $e) {
+    echo Psr7\str($e->getRequest());
+    if ($e->hasResponse()) {
+        echo Psr7\str($e->getResponse());
+    }
+}
+
+echo     "<br>";
+
+          print_r(json_decode($response->getBody(), true));
+
+// Store the list of volunteers and their IDs
+$volunteers = json_decode($response->getBody(), true)["records"];
+
 ?>

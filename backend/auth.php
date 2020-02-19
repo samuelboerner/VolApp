@@ -37,4 +37,23 @@ if (!isset($_REQUEST['code'])) {
 
 echo "Success!!! Auth code ".$_REQUEST['code']." was delivered!";
 
+// Make the token request
+$response = $client->request("POST", TOKEN_URI, [
+    "form_params" => [
+        "grant_type" => "authorization_code",
+        "code" => $_REQUEST['code'],
+        "client_id" => CONSUMER_KEY,
+        "client_secret" => CONSUMER_SECRET,
+        "redirect_uri" => CALLBACK_URI
+    ]
+]);
+
+echo   "<pre style='font-family:inherit'>";
+
+          print_r(json_decode($response->getBody(), true));
+
+// Store the token and instance url
+$access_token = json_decode($response->getBody(),true)["access_token"];
+$instance_url = json_decode($response->getBody(),true)["instance_url"];
+
 ?>

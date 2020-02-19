@@ -1,3 +1,4 @@
 .DS_Store
 backend/vendor
+backend/credentials.php
 composer.phar

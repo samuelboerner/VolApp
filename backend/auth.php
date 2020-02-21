@@ -94,4 +94,48 @@ echo     "<br>";
 // Store the list of volunteers and their IDs
 $volunteers = json_decode($response->getBody(), true)["records"];
 
+try {
+    // Define post endpoint and volunteer job
+    define("POST_URI", "/services/data/v20.0/sobjects/GW_Volunteers__Volunteer_Hours__c");
+    define("VOLUNTEER_JOB", "a0N3J000000AymTUAS");
+
+    // Test posting a record up. Let's use the last volunteer
+    // in the array from our earlier call
+    $volunteer_id = end($volunteers)["Id"];
+
+    // ...and pick some random times to enter. Time in ISO 8601
+    // format
+    $datetimein = "2020-02-10T09:00:00-0800";
+    $datein = "2020-02-10";
+
+    $response = $client->request("POST", POST_URI, [
+        "headers" => [
+            "Authorization" => "Bearer ".$access_token,
+            "Accept" => "application/json"
+        ],
+        "json" => [
+            "GW_Volunteers__Contact__c" => $volunteer_id,
+            "Date_Time_In__c" => $datetimein,
+            "GW_Volunteers__Start_Date__c" => $datein,
+            "GW_Volunteers__Status__c" => "Completed",
+            "GW_Volunteers__Volunteer_Job__c" => VOLUNTEER_JOB,
+            "Community_Service__c" => false,
+            "GW_Volunteers__Number_of_Volunteers__c" => 1.0
+        ]
+    ]);
+    // Display response if an exception in thrown
+} catch (RequestException $e) {
+    echo Psr7\str($e->getRequest());
+    if ($e->hasResponse()) {
+        echo Psr7\str($e->getResponse());
+    }
+}
+
+echo     "<br>Posted!!!<br>";
+
+          print_r(json_decode($response->getBody(), true));
+
+// Store the id of the record we just created
+$record_id = json_decode($response->getBody(), true)["id"];
+
 ?>

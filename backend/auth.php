@@ -138,4 +138,37 @@ echo     "<br>Posted!!!<br>";
 // Store the id of the record we just created
 $record_id = json_decode($response->getBody(), true)["id"];
 
+// Finally, test patching the record we just posted to cap
+// off the day
+try {
+    // Define patch endpoint
+    define("PATCH_URI", "/services/data/v20.0/sobjects/GW_Volunteers__Volunteer_Hours__c/".$record_id);
+
+    // Pick the time the volunteer checks out
+    $datetimeout = "2020-02-10T13:45:00-0800";
+
+    // WE use POST because the salesforce specification offers it
+    // as an alternative when PATCH as a method does not work
+    $response = $client->request("POST", PATCH_URI, [
+        "headers" => [
+            "Authorization" => "Bearer ".$access_token,
+            "Accept" => "application/json"
+        ],
+        "json" => [
+            "Date_Time_Out__c" => $datetimeout
+        ],
+        "query" => [
+            "_HttpMethod" => "PATCH"
+        ]
+    ]);
+    // Display response if an exception in thrown
+} catch (RequestException $e) {
+    echo Psr7\str($e->getRequest());
+    if ($e->hasResponse()) {
+        echo Psr7\str($e->getResponse());
+    }
+}
+
+echo     "<br>Patched!!!";
+
 ?>

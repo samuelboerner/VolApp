@@ -1,3 +1,24 @@
+<?php
+
+    require_once "backend/vendor/autoload.php";
+
+    use \ParagonIE\HiddenString\HiddenString;
+    use \ParagonIE\Halite\Symmetric\EncryptionKey;
+    use \ParagonIE\Halite\Cookie;
+
+    // Define hidden constants
+    require_once "backend/secure.php";
+
+    // Make an encryped key using a defined string, and configure the encryptor
+    $key = new EncryptionKey(new HiddenString(RAW_KEY));
+    $cookies = new Cookie($key);
+
+    if (empty($cookies->fetch("access_token")) || empty($cookies->fetch("instance_url"))) {
+        header("Location: login.php");
+    }
+
+?>
+
 <!DOCTYPE html>
 
 <html>

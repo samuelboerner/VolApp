@@ -1,0 +1,42 @@
+/*
+
+Styles derived from the fruitbasket WordPress theme devloped for RVFB
+by Annamarie Cowrt
+
+*/
+
+html * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #f7f7f7 url("/assets/media/background.png") no-repeat fixed right top;
+  background-size: 130vh;
+  font-family: 'PT Sans', Verdana, Arial, Helvetica, sans-serif;
+}
+
+a {
+  color: #fc6805;
+  text-decoration: none;
+}
+
+.button {
+  color: #fff;
+  cursor: pointer;
+}
+
+a.button {
+  border: none;
+  background-color: #fc6805;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+  padding: 20px 7%;
+  text-transform: uppercase;
+}
+
+a.button:hover {
+  background-color: #da5b05;
+}

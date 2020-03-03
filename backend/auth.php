@@ -24,30 +24,23 @@ $client = new GuzzleHttp\Client([
     "timeout" => 5.0
 ]);
 
-// if there isn't an auth cookie set
-if (empty($cookies->fetch("auth_token"))) {
+// If we aren't yet authenticated
+if (empty($_REQUEST["code"])) {
 
-    // If we aren't yet authenticated
-    if (empty($_REQUEST["code"])) {
+    // Make the initial auth request
+    $response = $client->request("GET", AUTH_URI, [
+        "query" => [
+            "client_id" => CONSUMER_KEY,
+            "redirect_uri" => CALLBACK_URI,
+            "response_type" => "code"
+        ]
+    ]);
 
-        // Make the initial auth request
-        $response = $client->request("GET", AUTH_URI, [
-            "query" => [
-                "client_id" => CONSUMER_KEY,
-                "redirect_uri" => CALLBACK_URI,
-                "response_type" => "code"
-            ]
-        ]);
+    // Display authentication
+    echo $response->getBody();
 
-        // Display authentication
-        echo $response->getBody();
-
-        // Don't want to do anything more until user logs in
-        exit();
-    }
-
-    // set auth cookie
-  $cookies->store("auth_token", $_REQUEST["code"], strtotime("+1000 years"));
+    // Don't want to do anything more until user logs in
+    exit();
 
 }
 

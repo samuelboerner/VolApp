@@ -14,14 +14,14 @@ const LOGIN_BASE_URI = "https://test.salesforce.com";
 const AUTH_URI = "/services/oauth2/authorize";
 const TOKEN_URI = "/services/oauth2/token";
 
-// Make an encryped key using a defined string, and configure the encryptor
+// Configure our cookie cryptor
 $key = new EncryptionKey(new HiddenString(RAW_KEY));
 $cookies = new Cookie($key);
 
 // Create the login client pointed at https://test.salesforce.com
 $client = new GuzzleHttp\Client([
     "base_uri" => LOGIN_BASE_URI,
-    "timeout" => 5.0
+    /*"timeout" => 5.0*/
 ]);
 
 // If we aren't yet authenticated
@@ -60,9 +60,9 @@ date_default_timezone_set('America/Los_Angeles');
 $access_token = json_decode($response->getBody(),true)["access_token"];
 $instance_url = json_decode($response->getBody(),true)["instance_url"];
 
-// Store a secure access token and instance url (encrypted)
-$cookies->store("access_token", $access_token, strtotime("tomorrow")); // Secure
-$cookies->store("instance_url", $instance_url, strtotime("tomorrow")); // Unsecure
+// Store a secure access token and instance url
+$cookies->store("access_token", $access_token, strtotime("tomorrow"));
+$cookies->store("instance_url", $instance_url, strtotime("tomorrow"));
 
 header("Location: /");
 

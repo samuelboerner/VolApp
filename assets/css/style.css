@@ -3,40 +3,85 @@
 Styles derived from the fruitbasket WordPress theme devloped for RVFB
 by Annamarie Cowrt
 
+Units measured in em to preserve scale during fullscreen
+
 */
 
 html * {
   margin: 0;
-  padding: 0;
   box-sizing: border-box;
+  padding: 0;
 }
 
+/* Background image disabled until the way I want it */
 body {
-  background: #f7f7f7 url("/assets/media/background.png") no-repeat fixed right top;
-  background-size: 130vh;
+  background-color: #F7F7F7;
+
+  font-size: 1rem;
   font-family: 'PT Sans', Verdana, Arial, Helvetica, sans-serif;
 }
 
+header {
+  margin-bottom: 2em;
+
+  background-color: #FFFFFFAA;
+}
+
+header::after {
+  content: "";
+
+  position: absolute;
+
+  width: 75%;
+  min-width: 46.88em;
+  height: .188em;
+
+  background-color: #fc6805;
+}
+
+h1 {
+  font-size: 3em;
+  line-height: 2;
+  font-weight: lighter;
+  letter-spacing: -.03em;
+  color: #444444;
+}
+
 a {
-  color: #fc6805;
+  color: #FC6805;
   text-decoration: none;
 }
 
+.container {
+  margin: 0 auto;
+  width: 90%;
+  min-width: 62.5em;
+}
+
 .button {
-  color: #fff;
+  color: #FFFFFF;
+
   cursor: pointer;
 }
 
 a.button {
   border: none;
-  background-color: #fc6805;
-  font-size: 20px;
-  font-weight: 700;
+  padding: 1.25em 7%;
+
+  background-color: #FC6805;
+
+  font-size: 1.25em;
   line-height: 1;
-  padding: 20px 7%;
+  font-weight: bold;
   text-transform: uppercase;
 }
 
 a.button:hover {
-  background-color: #da5b05;
+  background-color: #DA5B05;
+}
+
+@media screen and (min-height: 700px) {
+  body {
+    font-size: 1.3rem;
+  }
 }

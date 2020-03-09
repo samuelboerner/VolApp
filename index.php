@@ -24,6 +24,7 @@
   <head>
     <meta charset="UTF-8">
     <title>Volunteer Home - Rainier Valley Food Bank</title>
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic|Arvo" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="/assets/css/style.css">
   </head>
   <body>
@@ -32,5 +33,15 @@
         <h1>Welcome Volunteers</h1>
       </div>
     </header>
+    <div class="container">
+      <p>
+        <span class="greenSpan"> Liability Release – </span> I hereby release, indemnify and hold harmless Rainier
+        Valley Food Bank, its officers, directors and employees, and the organizers, sponsors, and supervisors from
+        any and all liability in connection with any injury I may sustain (including any injury caused by negligence)
+        in conjunction with activities inside or outside Rainier Valley Food Bank. *The Corporation for National and
+        Community Service, AmeriCorps requires this information to better assess demographics in areas where AmeriCorps
+        members are placed © <em>Elise Cope</em>
+      </p>
+    </div>
   </body>
 </html>

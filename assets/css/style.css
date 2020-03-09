@@ -43,7 +43,7 @@ h1 {
   font-size: 3em;
   line-height: 2;
   font-weight: lighter;
-  letter-spacing: -.03em;
+  letter-spacing: -.5px;
   color: #444444;
 }
 
@@ -78,6 +78,13 @@ a.button {
 
 a.button:hover {
   background-color: #DA5B05;
+}
+
+.greenSpan {
+  font-size: 1.3em;
+  font-family: 'Arvo', serif;
+  letter-spacing: -.5px;
+  color: #13BA3F;
 }
 
 @media screen and (min-height: 700px) {

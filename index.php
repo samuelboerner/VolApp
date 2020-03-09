@@ -1,21 +1,64 @@
 <?php
 
-    require_once "backend/vendor/autoload.php";
+require_once "backend/vendor/autoload.php";
 
-    use \ParagonIE\HiddenString\HiddenString;
-    use \ParagonIE\Halite\Symmetric\EncryptionKey;
-    use \ParagonIE\Halite\Cookie;
+use \ParagonIE\HiddenString\HiddenString;
+use \ParagonIE\Halite\Symmetric\EncryptionKey;
+use \ParagonIE\Halite\Cookie;
 
-    // Define hidden constants
-    require_once "backend/secure.php";
+// Define hidden constants
+require_once "backend/secure.php";
 
-    // Make an encryped key using a defined string, and configure the encryptor
-    $key = new EncryptionKey(new HiddenString(RAW_KEY));
-    $cookies = new Cookie($key);
+// Configure our cookie cryptor
+$key = new EncryptionKey(new HiddenString(RAW_KEY));
+$cookies = new Cookie($key);
 
-    if (empty($cookies->fetch("access_token")) || empty($cookies->fetch("instance_url"))) {
-        header("Location: login.php");
-    }
+$access_token = $cookies->fetch("access_token");
+$instance_url = $cookies->fetch("instance_url");
+
+// Redirect user back to login if tokens are not set
+if (empty($access_token) || empty($instance_url)) {
+    header("Location: login.php");
+    exit();
+}
+
+// Create a new client pointed at the instance url
+$client = new GuzzleHttp\Client([
+    "base_uri" => $instance_url,
+    /*"timeout" => 5.0*/
+]);
+
+// Define endpoint
+define("QUERY_URI", "/services/data/v20.0/query/");
+
+// Get a list of volunteer names, volunteer IDs, and match check-in IDs
+// to those currently checked-in. We will use those IDs for check-out
+//
+// SOQL queries do not support OUTER JOIN statements, therefore we use a subselect
+// to retrieve the check-in ID from the child GW_Volunteers__Volunteer_Hours__r table
+$query =
+"SELECT Name, Id,
+(
+  SELECT Id
+  FROM GW_Volunteers__Volunteer_Hours__r
+  WHERE Date_Time_Out__c = NULL
+  AND CreatedDate = TODAY
+)
+FROM Contact";
+
+// Make the query
+$response = $client->request("GET", QUERY_URI, [
+    "headers" => [
+        "Authorization" => "Bearer ".$access_token,
+        "Accept" => "application/json"
+    ],
+    "query" => [
+      "q" => $query
+    ]
+]);
+
+// Store results
+$records = json_decode($response->getBody(),true)["records"];
 
 ?>
 

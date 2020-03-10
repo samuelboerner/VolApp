@@ -17,13 +17,12 @@ html, body {
   height: 100%
 }
 
-/* Background image disabled until the way I want it */
 body {
+  display: flex;
   flex-flow: column;
 
-  display: flex;
-
-  background-color: #F7F7F7;
+  background: #F7F7F7 url("/assets/media/background.png") no-repeat fixed right top;
+  background-size: 130vh;
 
   font-size: 1rem;
   font-family: 'PT Sans', Verdana, Arial, Helvetica, sans-serif;
@@ -137,6 +136,9 @@ a.button:hover {
 
 @media screen and (min-height: 700px) {
   body {
+    background-position: right calc(0% + 15vh);
+    background-size: 110vh;
+
     font-size: 1.3rem;
   }
 }

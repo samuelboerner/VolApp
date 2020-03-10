@@ -18,7 +18,7 @@ $instance_url = $cookies->fetch("instance_url");
 
 // Redirect user back to login if tokens are not set
 if (empty($access_token) || empty($instance_url)) {
-    header("Location: login.php");
+    header("Location: login.html");
     exit();
 }
 
@@ -44,7 +44,8 @@ $query =
   WHERE Date_Time_Out__c = NULL
   AND CreatedDate = TODAY
 )
-FROM Contact";
+FROM Contact
+ORDER BY Name";
 
 // Make the query
 $response = $client->request("GET", QUERY_URI, [

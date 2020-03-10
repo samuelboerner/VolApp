@@ -13,8 +13,16 @@ html * {
   padding: 0;
 }
 
+html, body {
+  height: 100%
+}
+
 /* Background image disabled until the way I want it */
 body {
+  flex-flow: column;
+
+  display: flex;
+
   background-color: #F7F7F7;
 
   font-size: 1rem;
@@ -39,6 +47,10 @@ header::after {
   background-color: #fc6805;
 }
 
+p.container {
+  margin-bottom: 1em;
+}
+
 h1 {
   font-size: 3em;
   line-height: 2;
@@ -47,21 +59,45 @@ h1 {
   color: #444444;
 }
 
+table {
+  flex-grow: 1;
+
+  display: block;
+
+  overflow: scroll;
+
+  border-collapse: collapse;
+}
+
+tr {
+  display: table;
+  table-layout: fixed;
+
+  border-bottom: 1px solid black;
+  width: 100%;
+
+  line-height: 5;
+}
+
+tr:last-child {
+  border-bottom: 0;
+}
+
+td {
+  text-align: center;
+}
+
+td:nth-child(2) {
+  text-align: right;
+}
+
+td:first-child {
+  font-family: "Arvo";
+}
+
 a {
   color: #FC6805;
   text-decoration: none;
-}
-
-.container {
-  margin: 0 auto;
-  width: 90%;
-  min-width: 62.5em;
-}
-
-.button {
-  color: #FFFFFF;
-
-  cursor: pointer;
 }
 
 a.button {
@@ -80,7 +116,19 @@ a.button:hover {
   background-color: #DA5B05;
 }
 
-.greenSpan {
+.container {
+  margin: 0 auto;
+  width: 90%;
+  min-width: 62.5em;
+}
+
+.button {
+  color: #FFFFFF;
+
+  cursor: pointer;
+}
+
+.span-green {
   font-size: 1.3em;
   font-family: 'Arvo', serif;
   letter-spacing: -.5px;

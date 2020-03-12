@@ -88,15 +88,31 @@ $records = json_decode($response->getBody(),true)["records"];
     </p>
 
     <table class="container">
-      <tbody>
-      <?php foreach ($records as $record) { ?>
-        <tr>
-          <td><?php echo $record["Name"]; ?></td>
-          <td></td>
-          <td></td>
-        </tr>
-      <?php } ?>
+      <tbody><?php
+        foreach ($records as $record) {
+          $volunteer_id = $record["Id"];
+          $active = !empty($record["GW_Volunteers__Volunteer_Hours__r"])?>
+          <tr>
+            <td><?php
+               echo $record["Name"];?>
+            </td>
 
+            <td>
+            </td>
+
+            <td><?php
+              if (!$active) { ?>
+                <a class="button list-button green-button" href=<?php
+                echo "/backend/submit.php?volunteer=".$volunteer_id;?>
+                >
+                  Check-in
+                </a><?php
+              } else { ?>
+                You must be checked in!<?php
+              }?>
+            </td>
+          </tr><?php
+        }?>
       </tbody>
     </table>
   </body>

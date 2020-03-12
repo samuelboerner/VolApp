@@ -59,9 +59,8 @@ h1 {
 }
 
 table {
-  flex-grow: 1;
-
   display: block;
+  flex-grow: 1;
 
   overflow: scroll;
 
@@ -95,24 +94,7 @@ td:first-child {
 }
 
 a {
-  color: #FC6805;
   text-decoration: none;
-}
-
-a.button {
-  border: none;
-  padding: 1.25em 7%;
-
-  background-color: #FC6805;
-
-  font-size: 1.25em;
-  line-height: 1;
-  font-weight: bold;
-  text-transform: uppercase;
-}
-
-a.button:hover {
-  background-color: #DA5B05;
 }
 
 .container {
@@ -122,9 +104,36 @@ a.button:hover {
 }
 
 .button {
+  border: none;
+  padding: 1.25em 7%;
+
   color: #FFFFFF;
 
+  font-weight: bold;
+
   cursor: pointer;
+}
+
+.list-button {
+  border-radius: 2px;
+
+  font-size: 0.85em;
+}
+
+.green-button {
+  background-color: #13BA3F;
+}
+
+.green-button:hover {
+  background-color: #18AA3F;
+}
+
+.red-button {
+  background-color: #FC6805;
+}
+
+.red-button:hover {
+  background-color: #DA5B05;
 }
 
 .span-green {

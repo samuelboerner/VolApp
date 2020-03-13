@@ -13,6 +13,9 @@ require_once "backend/secure.php";
 $key = new EncryptionKey(new HiddenString(RAW_KEY));
 $cookies = new Cookie($key);
 
+// Set timezone
+date_default_timezone_set("America/Los_Angeles");
+
 $access_token = $cookies->fetch("access_token");
 $instance_url = $cookies->fetch("instance_url");
 
@@ -39,7 +42,7 @@ define("QUERY_URI", "/services/data/v20.0/query/");
 $query =
 "SELECT Name, Id,
 (
-  SELECT Id
+  SELECT Id, CreatedDate
   FROM GW_Volunteers__Volunteer_Hours__r
   WHERE Date_Time_Out__c = NULL
   AND CreatedDate = TODAY
@@ -91,13 +94,18 @@ $records = json_decode($response->getBody(),true)["records"];
       <tbody><?php
         foreach ($records as $record) {
           $volunteer_id = $record["Id"];
-          $active = !empty($record["GW_Volunteers__Volunteer_Hours__r"])?>
+          if ($active = !empty($checkin = $record["GW_Volunteers__Volunteer_Hours__r"]["records"][0])) {
+            $checkin_id = $checkin["Id"];
+            $checkin_time = date('g:i A', strtotime($checkin["CreatedDate"]));
+          }?>
+
           <tr>
             <td><?php
                echo $record["Name"];?>
             </td>
 
-            <td>
+            <td><?php
+              echo ($active)? "Checked in at ".$checkin_time: "";?>
             </td>
 
             <td><?php
@@ -108,7 +116,11 @@ $records = json_decode($response->getBody(),true)["records"];
                   Check-in
                 </a><?php
               } else { ?>
-                You must be checked in!<?php
+                <a class="button list-button red-button" href=<?php
+                echo "/backend/submit.php?checkin=".$checkin_id;?>
+                >
+                  Check-out
+                </a><?php
               }?>
             </td>
           </tr><?php

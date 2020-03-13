@@ -61,6 +61,32 @@ if (!empty($_GET["volunteer"])) {
       // Redirect back to home page
       header("Location: /");
       exit();
+
+} elseif (!empty($_GET["checkin"])) {
+
+  // Declare our check-in ID
+  $checkin_id = $_GET["checkin"];
+
+  // Define endpoint
+  define("PATCH_URI", "/services/data/v20.0/sobjects/GW_Volunteers__Volunteer_Hours__c/".$checkin_id);
+
+  // Submit check-out event
+  $response = $client->request("POST", PATCH_URI, [
+        "headers" => [
+            "Authorization" => "Bearer ".$access_token,
+            "Accept" => "application/json"
+        ],
+        "json" => [
+            "Date_Time_Out__c" => $current_time
+        ],
+        "query" => [
+            "_HttpMethod" => "PATCH",
+        ]
+    ]);
+
+  // Redirect back to home page
+  header("Location: /");
+  exit();
 }
 
 header("HTTP/1.1 403");

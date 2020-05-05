@@ -34,6 +34,20 @@ header {
   background-color: #FFFFFFAA;
 }
 
+header .container {
+  display: table;
+  table-layout: fixed;
+}
+
+header .container > * {
+  display: table-cell;
+}
+
+header .container :last-child {
+  text-align: right;
+  vertical-align: middle;
+}
+
 header::after {
   content: "";
 
@@ -112,6 +126,24 @@ a {
   font-weight: bold;
 
   cursor: pointer;
+}
+
+/* center element using absolute positioning */
+.login-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  transform: translateX(-50%) translateY(-50%);
+
+  font-size: 1.25em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.logout-button {
+  font-size: 0.85em;
+  text-transform: uppercase;
 }
 
 .list-button {

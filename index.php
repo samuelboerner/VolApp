@@ -25,6 +25,16 @@ if (empty($access_token) || empty($instance_url)) {
     exit();
 }
 
+if ($_GET["logout"] == 1) {
+
+  // Setting a cookie to expire at a past date is effectively deletion
+  $cookies->store("access_token", $access_token, strtotime("yesterday"));
+  $cookies->store("instance_url", $instance_url, strtotime("yesterday"));
+
+  header("Location: login.html");
+  exit();
+}
+
 // Create a new client pointed at the instance url
 $client = new GuzzleHttp\Client([
     "base_uri" => $instance_url,
@@ -72,13 +82,16 @@ $records = json_decode($response->getBody(),true)["records"];
     <meta charset="UTF-8">
     <title>Volunteer Home - Rainier Valley Food Bank</title>
     <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic|Arvo" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/style.css">
   </head>
 
   <body>
     <header>
       <div class="container">
         <h1>Welcome Volunteers</h1>
+        <div>
+          <a class="button logout-button red-button" href="/?logout=1">(Staff) Logout</a>
+        </div>
       </div>
     </header>
     <p class="container">
@@ -111,13 +124,13 @@ $records = json_decode($response->getBody(),true)["records"];
             <td><?php
               if (!$active) { ?>
                 <a class="button list-button green-button" href=<?php
-                echo "/backend/submit.php?volunteer=".$volunteer_id;?>
+                echo "backend/submit.php?volunteer=".$volunteer_id;?>
                 >
                   Check-in
                 </a><?php
               } else { ?>
                 <a class="button list-button red-button" href=<?php
-                echo "/backend/submit.php?checkin=".$checkin_id;?>
+                echo "backend/submit.php?checkin=".$checkin_id;?>
                 >
                   Check-out
                 </a><?php
